@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="kk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Қалдықтарды қайта өңдеу</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #2ecc71;
+            --secondary-color: #3498db;
+            --dark-color: #2c3e50;
+            --light-color: #ecf0f1;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Montserrat', sans-serif;
+            line-height: 1.6;
+            color: var(--dark-color);
+            overflow-x: hidden;
+        }
+        
+        .gradient-bg {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+        }
+        
+        header {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 0 20px;
+        }
+        
+        header h1 {
+            font-size: 3.5rem;
+            margin-bottom: 20px;
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeInUp 1s forwards;
+        }
+        
+        header p {
+            font-size: 1.5rem;
+            max-width: 800px;
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeInUp 1s 0.3s forwards;
+        }
+        
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .scroll-down {
+            position: absolute;
+            bottom: 30px;
+            font-size: 1.2rem;
+            animation: bounce 2s infinite;
+        }
+        
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {
+                transform: translateY(0);
+            }
+            40% {
+                transform: translateY(-20px);
+            }
+            60% {
+                transform: translateY(-10px);
+            }
+        }
+        
+        section {
+            padding: 80px 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+            opacity: 0;
+            transform: translateY(50px);
+            transition: all 1s ease;
+        }
+        
+        section.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        section h2 {
+            font-size: 2.5rem;
+            margin-bottom: 40px;
+            text-align: center;
+        }
+        
+        .benefits {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+        
+        .benefit-card {
+            background-color: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+        
+        .benefit-card:hover {
+            transform: translateY(-10px);
+        }
+        
+        .benefit-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            color: var(--primary-color);
+        }
+        
+        .facts {
+            background-color: var(--light-color);
+        }
+        
+        .fact-counter {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            text-align: center;
+        }
+        
+        .counter-item h3 {
+            font-size: 3rem;
+            color: var(--primary-color);
+            margin-bottom: 10px;
+        }
+        
+        .process-steps {
+            padding-bottom: 120px;
+        }
+        
+        .steps-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 30px;
+            margin-top: 50px;
+        }
+        .step-btn {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 20px 30px;
+            font-size: 1.2rem;
+            border-radius: 50px;
+            cursor: pointer;
+            width: 80%;
+            max-width: 500px;
+            text-align: center;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .step-btn:hover {
+            background-color: var(--secondary-color);
+            transform: scale(1.05);
+        }
+        
+        .step-btn.active {
+            background-color: var(--secondary-color);
+        }
+        
+        .step-content {
+            display: none;
+            background-color: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            width: 80%;
+            max-width: 800px;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.5s ease;
+        }
+        
+        .step-content.active {
+            display: block;
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .step-content p {
+            margin-bottom: 15px;
+        }
+        
+        .step-content img {
+            max-width: 100%;
+            border-radius: 10px;
+            margin: 20px 0;
+        }
+        
+        footer {
+            background-color: var(--dark-color);
+            color: white;
+            text-align: center;
+            padding: 30px 20px;
+        }
+        
+        footer p {
+            margin-bottom: 10px;
+        }
+        
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 2.5rem;
+            }
+            
+            header p {
+                font-size: 1.2rem;
+            }
+            
+            section h2 {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="gradient-bg">
+        <h1>Қалдықтарды қайта өңдеу</h1>
+        <p>Біздің планетамызды бірге қорғайық. Қалдықтарды қайта өңдеу арқылы табиғи ресурстарды сақтауға және қоршаған ортаны қорғауға үлес қосыңыз.</p>
+        <div class="scroll-down">Төмен түсіріңіз ↓</div>
+    </header>
+
+    <section id="about">
+        <h2>Қалдықтарды қайта өңдеу туралы</h2>
+        <p>Қалдықтарды қайта өңдеу - бұл қоршаған ортаны қорғаудың маңызды бөлігі. Қайта өңдеу арқылы біз қоқыс полигондарындағы қалдықтардың мөлшерін азайтып, табиғи ресурстарды үнемдеп және энергияны сақтай аламыз.</p>
+        <p>Қазақстанда қалдықтарды қайта өңдеу саласы дамып келеді, бірақ әлі де жақсартулар қажет. Әрбір азамат өз үлесін қоса алады.</p>
+        <div class="benefits">
+            <div class="benefit-card">
+                <h3>Ресурстарды сақтау</h3>
+                <p>Қайта өңдеу жаңа өнімдер жасау үшін қажетті шикізатты азайтуға көмектеседі.</p>
+            </div>
+            <div class="benefit-card">
+                <h3>Энергияны үнемдеу</h3>
+                <p>Қайта өңделген материалдардан жаңа өнім жасау жаңа шикізаттан жасауға қарағанда аз энергияны қажет етеді.</p>
+            </div>
+            <div class="benefit-card">
+                <h3>Атмосфераны қорғау</h3>
+                <p>Қайта өңдеу парниктік газдар шығарындыларын азайтуға және ауа сапасын жақсартуға көмектеседі.</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="facts" class="facts">
+        <h2>Қызықты фактілер</h2>
+        <div class="fact-counter">
+            <div class="counter-item">
+                <h3 id="counter1">0</h3>
+                <p>Қағазды қайта өңдеу арқылы ағаштарды сақтауға болады</p>
+            </div>
+            <div class="counter-item">
+                <h3 id="counter2">0</h3>
+                <p>Пластикті қайта өңдеу мұнай баррельдерін үнемдейді</p>
+            </div>
+            <div class="counter-item">
+                <h3 id="counter3">0</h3>
+                <p>Алюминийді қайта өңдеу энергияны үнемдейді</p>
+            </div>
+        </div>
+    </section>
+    <section id="process" class="process-steps">
+        <h2>Қалдықтарды қайта өңдеу процесі</h2>
+        <p>Қалдықтарды қайта өңдеу - бұл бірнеше маңызды кезеңдерден тұратын процесс. Төмендегі батырмаларды басу арқылы әр кезең туралы толығырақ біле аласыз.</p>
+        
+        <div class="steps-container">
+            <button class="step-btn" data-step="1">1-қадам: Жинау және сұрыптау</button>
+            <div class="step-content" id="step1">
+                <h3>Жинау және сұрыптау</h3>
+                <p>Қайта өңдеу процесінің бірінші қадамы - қалдықтарды жинау және оларды түрлері бойынша сұрыптау. Бұл кезеңде қалдықтар жиналып, қайта өңдеу орталықтарына жеткізіледі, онда олар пластик, қағаз, шыны, металл және органикалық қалдықтар сияқты санаттарға бөлінеді.</p>
+                <p>Қазақстанның көптеген қалаларында қалдықтарды бөлек жинауға арналған контейнерлер орнатылуда, бұл сұрыптау процесін жеңілдетеді.</p>
+                <img src="/api/placeholder/400/300" alt="Қалдықтарды жинау және сұрыптау">
+            </div>
+            
+            <button class="step-btn" data-step="2">2-қадам: Тазарту және өңдеу</button>
+            <div class="step-content" id="step2">
+                <h3>Тазарту және өңдеу</h3>
+                <p>Қалдықтар сұрыпталғаннан кейін олар тазартылады және өңдеуге дайындалады. Бұл процесс әртүрлі материалдар үшін әр түрлі болады:</p>
+                <ul>
+                    <li>Пластик жуылып, ұсақталады</li>
+                    <li>Қағаз талшықтарға ыдырайды</li>
+                    <li>Шыны ұнтақталып, балқытылады</li>
+                    <li>Металл балқытылады</li>
+                </ul>
+                <p>Бұл кезең қайта өңдеу процесіндегі ең маңызды кезеңдердің бірі болып табылады, өйткені ол материалдарды жаңа өнімдер жасауға дайындайды.</p>
+                <img src="/api/placeholder/400/300" alt="Қалдықтарды тазарту және өңдеу">
+            </div>
+            
+            <button class="step-btn" data-step="3">3-қадам: Қайта өңдеу</button>
+            <div class="step-content" id="step3">
+                <h3>Қайта өңдеу</h3>
+                <p>Өңделген материалдар енді қайта өңдеу процесінен өтеді. Бұл кезеңде материалдар жаңа өнімдер жасау үшін қолданылады. Мысалы:</p>
+                <ul>
+                    <li>Қайта өңделген пластиктен жаңа контейнерлер, киімдер немесе құрылыс материалдары жасалады</li>
+                    <li>Қайта өңделген қағаздан жаңа қағаз өнімдері, орама материалдары немесе тұрмыстық тауарлар жасалады</li>
+                    <li>Қайта өңделген шыныдан жаңа ыдыстар немесе құрылыс материалдары жасалады</li>
+                    <li>Қайта өңделген металдан жаңа банкалар, құрылыс материалдары немесе автокөлік бөлшектері жасалады</li>
+                </ul>
+                <img src="/api/placeholder/400/300" alt="Қалдықтарды қайта өңдеу">
+            </div>
+            
+            <button class="step-btn" data-step="4">4-қадам: Жаңа өнімдерді жасау</button>
+            <div class="step-content" id="step4">
+                <h3>Жаңа өнімдерді жасау</h3>
+                <p>Қайта өңделген материалдардан жасалған жаңа өнімдер енді нарыққа шығады. Бұл өнімдер қайта өңделуі мүмкін деп жиі белгіленеді, бұл тұтынушыларға қоршаған ортаны қорғауға өз үлесін қосуға мүмкіндік береді.</p>
+                <p>Қайта өңделген материалдардан жасалған өнімдерді сатып алу қоршаған ортаны қорғауға және қайта өңдеу индустриясын қолдауға көмектеседі.</p>
+                <img src="/api/placeholder/400/300" alt="Жаңа өнімдерді жасау">
+            </div>
+            
+            <button class="step-btn" data-step="5">5-қадам: Қайта қолдану</button>
+            <div class="step-content" id="step5">
+                <h3>Қайта қолдану</h3>
+                <p>Қайта өңдеу циклінің соңғы кезеңі - қайта қолдану. Жаңа өнімдер пайдаланылады, содан кейін қайта өңделеді, бұл қалдықтарды басқарудың тұйық циклін жасайды.</p>
+                <p>Тұтынушылар қайта өңделетін өнімдерді сатып алып және оларды тиісті түрде кәдеге жаратып, қалдықтарды басқару процесінің маңызды бөлігі болып табылады.</p>
+                <img src="/api/placeholder/400/300" alt="Қалдықтарды қайта қолдану">
+            </div>
+        </div>
+    </section>
+
+    <footer class="gradient-bg">
+        <p>© 2025 Қалдықтарды қайта өңдеу ақпараттық сайты</p>
+        <p>Біздің планетаны бірге қорғайық!</p>
+    </footer>
+
+    <script>
+        // Анимация скролла для секций
+        const sections = document.querySelectorAll('section');
+        
+        function checkSections() {
+            const triggerBottom = window.innerHeight * 0.8;
+            
+            sections.forEach(section => {
+                const sectionTop = section.getBoundingClientRect().top;
+                
+                if (sectionTop < triggerBottom) {
+                    section.classList.add('visible');
+                }
+            });
+        }
+        
+        window.addEventListener('scroll', checkSections);
+        window.addEventListener('load', checkSections);
+        
+        // Счетчики для фактов
+        function animateCounter(id, end, duration) {
+            const obj = document.getElementById(id);
+            const start = 0;
+            const range = end - start;
+            const increment = end > start ? 1 : -1;
+            const stepTime = Math.abs(Math.floor(duration / range));
+            let current = start;
+            
+            const timer = setInterval(() => {
+                current += increment;
+                obj.textContent = current;
+                
+                if (current == end) {
+                    clearInterval(timer);
+                }
+            }, stepTime);
+        }
+        
+        function checkCounters() {
+            const counterSection = document.getElementById('facts');
+            const sectionTop = counterSection.getBoundingClientRect().top;
+            const triggerBottom = window.innerHeight * 0.8;
+            
+            if (sectionTop < triggerBottom) {
+                animateCounter('counter1', 17, 2000);
+                animateCounter('counter2', 74, 2000);
+                animateCounter('counter3', 95, 2000);
+                window.removeEventListener('scroll', checkCounters);
+            }
+        }
+        
+        window.addEventListener('scroll', checkCounters);
+        window.addEventListener('load', checkCounters);
+        
+        // Интерактивные шаги процесса
+        const stepBtns = document.querySelectorAll('.step-btn');
+        const stepContents = document.querySelectorAll('.step-content');
+        
+        stepBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                const step = btn.getAttribute('data-step');
+                
+                // Удаляем активные классы со всех кнопок и контента
+                stepBtns.forEach(b => b.classList.remove('active'));
+                stepContents.forEach(c => c.classList.remove('active'));
+                
+                // Добавляем активный класс нажатой кнопке и соответствующему контенту
+                btn.classList.add('active');
+                document.getElementById(`step${step}`).classList.add('active');
+            });
+        });
+        
+        // Активируем первый шаг по умолчанию
+        document.querySelector('.step-btn').click();
+    </script>
+</body>
+</html>
